@@ -9,11 +9,11 @@ nave=array of Integer;
 var
 i,j,x,y,z,s,m,n,verso,cont:Integer;
 sovrapposte:boolean;
-griglia:arr;
+griglia,g:arr;
 
 
 //creo la griglia di gioco
-procedure GrigliaGioco(range:Integer;var g:arr);
+function GrigliaGioco(range:Integer;var griglia:arr):arr;
 begin
 
  //popolo la griglia con '≈'
@@ -21,15 +21,15 @@ begin
     begin
         for j:=0 to range do
         begin
-        g[i,j]:= '≈';
+        griglia[i,j]:= '≈';
         end; 
     end;
-
+    GrigliaGioco:=griglia;
 end;
 
 
 //Funzione che posiziona randomicamente le navi sulla griglia
-procedure PosizioneNavi(navi:nave;griglia:arr;range:Integer);
+function PosizioneNavi(navi:nave;griglia:arr;range:Integer):arr;
 begin
 
     for i:=0 to Length(navi) do
@@ -75,13 +75,13 @@ begin
             begin
                 if verso=1 then
                 begin
-                    griglia[x,(y+z)]:= sysUtils.intToStr(navi[i]);
-                    //griglia[x,(y+z)]:='N'
+                    //griglia[x,(y+z)]:= sysUtils.intToStr(navi[i]);
+                    griglia[x,(y+z)]:='N'
                 end
                 else
                 begin
-                    griglia[(x+z),y]:= sysUtils.intToStr(navi[i]);
-                    //griglia[(x+z),y]:='N'
+                    //griglia[(x+z),y]:= sysUtils.intToStr(navi[i]);
+                    griglia[(x+z),y]:='N'
                 end;
             end;
         end;
@@ -94,30 +94,33 @@ begin
             write(griglia[i,j],' ');
         end;
         writeln();
+        PosizioneNavi:=griglia;
     end
+    
 end;
 
 
-procedure SparaColpo(x,y:Integer; griglia:arr);
+function SparaColpo(x,y:Integer; griglia:arr):arr;
 begin
-    if griglia[x,y] = '≈' then
+    if griglia[y,x] = '≈' then
     begin
-        griglia[x,y]:= 'M';
+        griglia[y,x]:= 'M';
         writeln('Mancata =( ');
     end
-    else if griglia[x,y] = 'N' then
+    else if griglia[y,x] = 'N' then
     begin
-        griglia[x,y]:= 'X';
+        griglia[y,x]:= 'X';
         writeln('Colpita !!! =) ');
     end
     else
     begin
         writeln('Hai già colpito questo punto');
     end;
+    SparaColpo:=griglia;
 end;
 
 
-procedure DisegnaGriglia(griglia:arr);
+function DisegnaGriglia(griglia:arr):arr;
 begin
     for i:=0 to 9 do
     begin
@@ -126,23 +129,29 @@ begin
             write(griglia[i,j],' ');
         end;
         writeln();
-    end
+    end;
+    DisegnaGriglia:=griglia;
 end;
 
 //MAIN
 begin
     randomize;
-    GrigliaGioco(9,griglia);
-    PosizioneNavi([5,3,2,3,5],griglia,9);
+    g:=GrigliaGioco(9,griglia);
+    g:=PosizioneNavi([5,3,2,3,5],griglia,9);
     
-    repeat
+    while true do
+    begin
+        m:=0;
+        n:=0;
         write('inserire la x: ');
-        read(M);
+        read(n);
+        
         write('inserire la y: ');
-        read(N);
-        SparaColpo(m,n,griglia);
-        DisegnaGriglia(griglia);
-
-    until (True);
+        read(m);
+        
+        g:=SparaColpo(n,m,g);
+        g:=DisegnaGriglia(g);
+    end;
+    
     
 end.
