@@ -102,6 +102,8 @@ end;
 
 function SparaColpo(x,y:Integer; griglia:arr):arr;
 begin
+    x:=x-1;
+    y:=y-1;
     if griglia[y,x] = '≈' then
     begin
         griglia[y,x]:= 'M';
@@ -141,12 +143,11 @@ begin
     
     while true do
     begin
-        m:=0;
-        n:=0;
-        write('inserire la x: ');
+        
+        write('inserire la coordinata asse x(1:10): ');
         read(n);
         
-        write('inserire la y: ');
+        write('inserire la coordinata asse y(1:10): ');
         read(m);
         
         g:=SparaColpo(n,m,g);
