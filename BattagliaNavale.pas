@@ -9,7 +9,7 @@ nave=array of Integer;
 var
 i,j,x,y,z,s,m,n,verso,cont:Integer;
 sovrapposte:boolean;
-griglia,grigliaP:arr;
+griglia:arr;
 
 
 //creo la griglia di gioco
@@ -74,15 +74,15 @@ begin
             for z:=0 to (navi[i]-1) do
             begin
                 if verso=1 then
-                    begin
-                        griglia[x,(y+z)]:= sysUtils.intToStr(navi[i]);
-                        //griglia[x,(y+z)]:='N'
-                    end
+                begin
+                    griglia[x,(y+z)]:= sysUtils.intToStr(navi[i]);
+                    //griglia[x,(y+z)]:='N'
+                end
                 else
-                    begin
-                        griglia[(x+z),y]:= sysUtils.intToStr(navi[i]);
-                        //griglia[(x+z),y]:='N'
-                    end;
+                begin
+                    griglia[(x+z),y]:= sysUtils.intToStr(navi[i]);
+                    //griglia[(x+z),y]:='N'
+                end;
             end;
         end;
     end;
@@ -109,13 +109,14 @@ begin
     begin
         griglia[x,y]:= 'X';
         writeln('Colpita !!! =) ');
-
     end
     else
     begin
         writeln('Hai già colpito questo punto');
     end;
 end;
+
+
 procedure DisegnaGriglia(griglia:arr);
 begin
     for i:=0 to 9 do
@@ -133,5 +134,15 @@ begin
     randomize;
     GrigliaGioco(9,griglia);
     PosizioneNavi([5,3,2,3,5],griglia,9);
+    
+    repeat
+        write('inserire la x: ');
+        read(M);
+        write('inserire la y: ');
+        read(N);
+        SparaColpo(m,n,griglia);
+        DisegnaGriglia(griglia);
+
+    until (True);
     
 end.
