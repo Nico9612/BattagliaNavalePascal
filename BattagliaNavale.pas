@@ -155,14 +155,12 @@ begin
     end;
 end;
 
-
-
-//MAIN
+procedure BattagliaNavale(range:Integer; navi:nave);
 begin
     randomize;
-    g:=GrigliaGioco(9,griglia);
-    g:=PosizioneNavi([2],griglia,9);
-    range:=9;
+    g:=GrigliaGioco(range,griglia);
+    g:=PosizioneNavi(navi,griglia,range);
+    
     cont:=Game(g,range);
     while cont > 0 do
     begin
@@ -177,7 +175,14 @@ begin
         cont:=Game(g,range);
         
     end;
-    
-    
+end;
+
+
+//MAIN
+begin
+ 
+ 
+ BattagliaNavale(9, [2]);
+
     
 end.
