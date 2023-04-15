@@ -3,7 +3,7 @@ uses
 sysUtils;
 
 type
-arr = array [0..9,0..9] of string;
+arr = array [0..100,0..100] of string;
 nave=array of Integer;
 
 var
@@ -158,6 +158,7 @@ end;
 procedure BattagliaNavale(range:Integer; navi:nave);
 begin
     randomize;
+    range:=range-1;
     g:=GrigliaGioco(range,griglia);
     g:=PosizioneNavi(navi,griglia,range);
     
@@ -182,7 +183,7 @@ end;
 begin
  
  
- BattagliaNavale(9, [2]);
+ BattagliaNavale(10, [2]);
 
     
 end.
