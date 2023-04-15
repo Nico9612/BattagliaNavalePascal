@@ -7,7 +7,7 @@ arr = array [0..9,0..9] of string;
 nave=array of Integer;
 
 var
-i,j,x,y,z,s,m,n,verso,cont:Integer;
+i,j,x,y,z,s,verso,cont,range:Integer;
 sovrapposte:boolean;
 griglia,g:arr;
 
@@ -15,7 +15,6 @@ griglia,g:arr;
 //creo la griglia di gioco
 function GrigliaGioco(range:Integer;var griglia:arr):arr;
 begin
-
  //popolo la griglia con '≈'
     for i:=0 to range do
     begin
@@ -87,9 +86,9 @@ begin
         end;
     end;
     //Stampo la griglia
-    for i:=0 to 9 do
+    for i:=0 to range do
     begin
-        for j:=0 to 9 do
+        for j:=0 to range do
         begin
             write(griglia[i,j],' ');
         end;
@@ -122,11 +121,11 @@ begin
 end;
 
 
-function DisegnaGriglia(griglia:arr):arr;
+function DisegnaGriglia(griglia:arr; range:Integer):arr;
 begin
-    for i:=0 to 9 do
+    for i:=0 to range do
     begin
-        for j:=0 to 9 do
+        for j:=0 to range do
         begin
             write(griglia[i,j],' ');
         end;
@@ -135,24 +134,50 @@ begin
     DisegnaGriglia:=griglia;
 end;
 
+
+function Game(griglia:arr; range:Integer): Integer;
+begin
+    cont:=0;
+    for i:=0 to range do
+    begin
+        for j:=0 to range do 
+        begin
+            if griglia[i,j]='N' then
+            begin
+                cont:=cont+1;
+            end;
+        end;
+        Game:=cont;  
+    end;
+    if Game = 0 then
+    begin
+        writeln('Non hai più Navi, mi dispiace Hai Perso! =(');
+    end;
+end;
+
+
+
 //MAIN
 begin
     randomize;
     g:=GrigliaGioco(9,griglia);
-    g:=PosizioneNavi([5,3,2,3,5],griglia,9);
-    
-    while true do
+    g:=PosizioneNavi([2],griglia,9);
+    range:=9;
+    cont:=Game(g,range);
+    while cont > 0 do
     begin
-        
         write('inserire la coordinata asse x(1:10): ');
-        read(n);
+        read(x);
         
         write('inserire la coordinata asse y(1:10): ');
-        read(m);
+        read(y);
         
-        g:=SparaColpo(n,m,g);
-        g:=DisegnaGriglia(g);
+        g:=SparaColpo(x,y,g);
+        g:=DisegnaGriglia(g,range);
+        cont:=Game(g,range);
+        
     end;
+    
     
     
 end.
